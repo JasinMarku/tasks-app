@@ -15,7 +15,6 @@
 		958FEFB32C9B5BF900B35F32 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958FEFB22C9B5BF900B35F32 /* TaskView.swift */; };
 		958FEFB92C9BE67800B35F32 /* CustomizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958FEFB82C9BE67800B35F32 /* CustomizationView.swift */; };
 		958FEFBB2C9BF43300B35F32 /* ClearTasksPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958FEFBA2C9BF43300B35F32 /* ClearTasksPopup.swift */; };
-		958FEFBF2C9D0DBA00B35F32 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958FEFBE2C9D0DBA00B35F32 /* Colors.swift */; };
 		958FEFC32C9DF08F00B35F32 /* TaskRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958FEFC22C9DF08F00B35F32 /* TaskRow.swift */; };
 		95DAF06C2CA2473400E99EA7 /* ManageCategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DAF06B2CA2473400E99EA7 /* ManageCategoriesView.swift */; };
 /* End PBXBuildFile section */
@@ -30,7 +29,6 @@
 		958FEFB22C9B5BF900B35F32 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		958FEFB82C9BE67800B35F32 /* CustomizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationView.swift; sourceTree = "<group>"; };
 		958FEFBA2C9BF43300B35F32 /* ClearTasksPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTasksPopup.swift; sourceTree = "<group>"; };
-		958FEFBE2C9D0DBA00B35F32 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		958FEFC22C9DF08F00B35F32 /* TaskRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRow.swift; sourceTree = "<group>"; };
 		95DAF06B2CA2473400E99EA7 /* ManageCategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCategoriesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,7 +65,6 @@
 			children = (
 				958FEFC62C9DF18C00B35F32 /* Subviews */,
 				958FEFC52C9DF17A00B35F32 /* Views */,
-				958FEFC42C9DF15700B35F32 /* Helpers */,
 				958FEFA42C9B57ED00B35F32 /* To_DoApp.swift */,
 				958FEFA82C9B57ED00B35F32 /* Assets.xcassets */,
 				958FEFAA2C9B57ED00B35F32 /* Preview Content */,
@@ -83,19 +80,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		958FEFC42C9DF15700B35F32 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				958FEFBE2C9D0DBA00B35F32 /* Colors.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		958FEFC52C9DF17A00B35F32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				958FEFA62C9B57ED00B35F32 /* ContentView.swift */,
 				958FEFB22C9B5BF900B35F32 /* TaskView.swift */,
+				958FEFB82C9BE67800B35F32 /* CustomizationView.swift */,
+				95DAF06B2CA2473400E99EA7 /* ManageCategoriesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -105,9 +96,7 @@
 			children = (
 				958FEFC22C9DF08F00B35F32 /* TaskRow.swift */,
 				957281A32CA712E400ED8811 /* TaskDetails.swift */,
-				958FEFB82C9BE67800B35F32 /* CustomizationView.swift */,
 				958FEFBA2C9BF43300B35F32 /* ClearTasksPopup.swift */,
-				95DAF06B2CA2473400E99EA7 /* ManageCategoriesView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -183,7 +172,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				958FEFB32C9B5BF900B35F32 /* TaskView.swift in Sources */,
-				958FEFBF2C9D0DBA00B35F32 /* Colors.swift in Sources */,
 				957281A42CA712E400ED8811 /* TaskDetails.swift in Sources */,
 				958FEFB92C9BE67800B35F32 /* CustomizationView.swift in Sources */,
 				958FEFA72C9B57ED00B35F32 /* ContentView.swift in Sources */,
