@@ -61,7 +61,7 @@ struct TaskView: View {
                                     .font(.title2)
                                     .fontWeight(.medium)
                                     .padding(.horizontal)
-                                    .foregroundStyle(Color.appAccentTwo)
+                                    .foregroundStyle(Color.appAccentOne)
                             }
                             Spacer()
                             Text("Create a Task")
@@ -167,7 +167,7 @@ struct TaskView: View {
                                 .padding(.top, -20)
                                 .padding()
                                 .transition(.opacity.combined(with: .scale))
-                                .tint(.appAccentTwo)
+                                .tint(.appAccentOne)
                             }
                             
                             VStack(alignment: .leading, spacing: 7) {

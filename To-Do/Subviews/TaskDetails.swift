@@ -25,7 +25,7 @@ struct TaskDetails: View {
                             .font(.title2)
                             .fontWeight(.medium)
                             .padding(.horizontal)
-                            .foregroundStyle(Color.appAccentTwo)
+                            .foregroundStyle(Color.appAccentOne)
                     }
                     
                     Spacer()
@@ -115,20 +115,34 @@ struct TaskDetails: View {
 
                         
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("Description")
-                                    .foregroundStyle(.secondary)
-                                    .fontWeight(.medium)
-                                
+                                HStack(spacing: 5) {
+                                    Text("Notes")
+                                        .fontWeight(.medium)
+                                    
+                                    Image("pencil")
+                                        .renderingMode(.template)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 15)
+
+                                }
+                                .foregroundStyle(.gray)
+
                                 ScrollView {
-                                    Text(task.description)
-                                        .foregroundStyle(.primary.opacity(0.74))
+                                    if task.description.isEmpty {
+                                        Text("No notes taken for this task!")
+                                            .foregroundStyle(.gray.opacity(0.5))
+                                    } else {
+                                        Text(task.description)
+                                            .foregroundStyle(.gray)
+                                    }
                                 }
                                 .scrollIndicators(.hidden)
                             }
-                            .frame(maxWidth: .infinity, maxHeight: 230, alignment: .topLeading)
-                            .multilineTextAlignment(.leading)
-                            .padding()
-                            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 15))
+//                            .frame(maxWidth: .infinity, maxHeight: 230, alignment: .topLeading)
+//                            .multilineTextAlignment(.leading)
+//                            .padding()
+//                            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 15))
                         
                         
 //                        Text()
@@ -145,8 +159,8 @@ struct TaskDetails: View {
                             .frame(maxWidth: .infinity)
                             .padding()
                             .fontWeight(.medium)
-                            .background(Color.appAccentOne.opacity(0.40), in: RoundedRectangle(cornerRadius: 15))
-                            .foregroundStyle(Color.white.opacity(0.85))
+                            .background(Color.appAccentOne, in: RoundedRectangle(cornerRadius: 15))
+                            .foregroundStyle(Color.white)
                     })
                     
                 }

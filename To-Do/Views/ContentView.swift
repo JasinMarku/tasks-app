@@ -49,13 +49,13 @@ struct ContentView: View {
                                     .font(.subheadline)
                                     .foregroundColor(
                                     taskProgress == 0 ? .secondary :
-                                    (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentPurple))
+                                    (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne))
                                     .fontWeight(.medium)
                                 
                                 ProgressView(value: taskProgress)
-                                    .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentPurple)
+                                    .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne)
                                     .scaleEffect(x: 1, y: 1.7, anchor: .center)
-                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentPurple.opacity(0.5)), radius: 5, x: 0, y: 0)
+                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne.opacity(0.5)), radius: 5, x: 0, y: 0)
 
                                 
                             }
@@ -147,13 +147,14 @@ struct ContentView: View {
                                             .font(.largeTitle)
                                             .foregroundStyle(.white)
                                             .frame(width: 75, height: 75)
-                                            .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
+                                            .background(LinearGradient(colors: [.appAccentOne], startPoint: .leading, endPoint: .bottomTrailing))
                                             .clipShape(Circle())
                                             .multicolorGlow()
                                             .sensoryFeedback(
                                                        .impact(weight: .heavy, intensity: 0.9),
                                                        trigger: trigger
                                                    )
+                                    
                                 }
                         }
                     }
@@ -185,7 +186,7 @@ struct ContentView: View {
                         } label: {
                             Image(systemName: "trash")
                                 .font(.system(size: 15))
-                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentMint : Color.secondary)
+                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentOne : Color.secondary)
                                 .fontWeight(.medium)
                                 .sensoryFeedback(
                                            .impact(weight: .heavy, intensity: 0.9),

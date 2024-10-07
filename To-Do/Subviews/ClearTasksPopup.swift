@@ -19,11 +19,11 @@ struct ClearTasksPopup: View {
 //                Text("Clear Tasks")
 //                    .font(.title2)
 //                    .fontWeight(.bold)
-//                
+//
                 Image("trash")
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .trailing))
+                    .foregroundStyle(Color.appAccentOne)
                     .scaledToFit()
                     .frame(width: 40)
                     .padding(.top, 2)
@@ -35,7 +35,7 @@ struct ClearTasksPopup: View {
             
             HStack(spacing: 20) {
                 Button(action: onCancel) {
-                    Text("No")
+                    Text("Cancel")
                         .foregroundColor(.primary)
                         .frame(width: 100)
                         .padding()

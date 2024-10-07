@@ -45,7 +45,7 @@ public struct CustomizationView: View {
                                 .font(.title2)
                                 .fontWeight(.medium)
                                 .padding(.horizontal)
-                                .foregroundStyle(Color.appAccentTwo)
+                                .foregroundStyle(Color.appAccentOne)
                         }
                         Spacer()
                         Text("Customization")
