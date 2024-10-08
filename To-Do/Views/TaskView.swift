@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct Task: Identifiable, Codable {
+struct Task: Identifiable, Codable, Equatable {
     let id: UUID
     var title: String
     var dueDate: Date?
@@ -61,7 +61,7 @@ struct TaskView: View {
                                     .font(.title2)
                                     .fontWeight(.medium)
                                     .padding(.horizontal)
-                                    .foregroundStyle(Color.appAccentOne)
+                                    .foregroundStyle(Color.appAccentTwo)
                             }
                             Spacer()
                             Text("Create a Task")

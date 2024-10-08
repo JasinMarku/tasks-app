@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskDetails: View {
-    var task: Task
+    @Binding var task: Task
     @Environment(\.presentationMode) var presentationMode
     var deleteTask: (Task) -> Void
         
@@ -50,7 +50,7 @@ struct TaskDetails: View {
                         .foregroundStyle(.primary)
                     
                     VStack(alignment: .leading, spacing: 15) {
-                        Text("\(task.title) Details")
+                        Text("\(task.title) details")
                             .font(.system(size: 27))
                             .fontWeight(.semibold)
                         
@@ -129,24 +129,18 @@ struct TaskDetails: View {
                                 .foregroundStyle(.gray)
 
                                 ScrollView {
-                                    if task.description.isEmpty {
-                                        Text("No notes taken for this task!")
-                                            .foregroundStyle(.gray.opacity(0.5))
-                                    } else {
-                                        Text(task.description)
-                                            .foregroundStyle(.gray)
-                                    }
+                                    TextField("Enter Notes", text: $task.description)
+                                        .textFieldStyle(PlainTextFieldStyle())
+//                                    if task.description.isEmpty {
+//                                        Text("No notes taken for this task!")
+//                                            .foregroundStyle(.gray.opacity(0.5))
+//                                    } else {
+//                                        Text(task.description)
+//                                            .foregroundStyle(.gray)
+//                                    }
                                 }
                                 .scrollIndicators(.hidden)
                             }
-//                            .frame(maxWidth: .infinity, maxHeight: 230, alignment: .topLeading)
-//                            .multilineTextAlignment(.leading)
-//                            .padding()
-//                            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 15))
-                        
-                        
-//                        Text()
-                        
                     }
                     
                     Spacer()
@@ -158,7 +152,7 @@ struct TaskDetails: View {
                         Text("Delete Task")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .fontWeight(.medium)
+                            .fontWeight(.bold)
                             .background(Color.appAccentOne, in: RoundedRectangle(cornerRadius: 15))
                             .foregroundStyle(Color.white)
                     })
@@ -189,5 +183,14 @@ struct TaskDetails: View {
 }
 
 #Preview {
-    TaskDetails(task: Task(id: UUID(), title: "Essay 2", isCompleted: true, category: "Terrorism & Homeland Security", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. "), deleteTask: { _ in })
+    TaskDetails(
+        task: .constant(Task(
+            id: UUID(),
+            title: "Essay 2",
+            isCompleted: true,
+            category: "Terrorism & Homeland Security",
+            description: "Sample Description Here"
+        )),
+        deleteTask: { _ in }
+    )
 }

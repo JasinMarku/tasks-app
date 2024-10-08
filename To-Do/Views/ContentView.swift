@@ -55,7 +55,7 @@ struct ContentView: View {
                                 ProgressView(value: taskProgress)
                                     .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne)
                                     .scaleEffect(x: 1, y: 1.7, anchor: .center)
-                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne.opacity(0.5)), radius: 5, x: 0, y: 0)
+                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne.opacity(0.9)), radius: 5, x: 0, y: 0)
 
                                 
                             }
@@ -116,13 +116,8 @@ struct ContentView: View {
                                 } else {
                                     ScrollView {
                                         LazyVStack(spacing: 20) {
-                                            ForEach(tasks) { task in
-                                                TaskRow(task: task, toggleCompletion: toggleTaskCompletion, deleteTask: { taskToDelete in
-                                                    if let index = tasks.firstIndex(where: { $0.id == taskToDelete.id}) {
-                                                        tasks.remove(at: index)
-                                                        saveTasks()
-                                                    }
-                                                })
+                                            ForEach($tasks) { $task in
+                                                TaskRow(task: $task, toggleCompletion: toggleTaskCompletion, deleteTask: deleteTask)
                                             }
                                             .padding(.bottom, -2)
                                         }
@@ -147,14 +142,13 @@ struct ContentView: View {
                                             .font(.largeTitle)
                                             .foregroundStyle(.white)
                                             .frame(width: 75, height: 75)
-                                            .background(LinearGradient(colors: [.appAccentOne], startPoint: .leading, endPoint: .bottomTrailing))
+                                            .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
                                             .clipShape(Circle())
                                             .multicolorGlow()
                                             .sensoryFeedback(
                                                        .impact(weight: .heavy, intensity: 0.9),
                                                        trigger: trigger
                                                    )
-                                    
                                 }
                         }
                     }
@@ -162,6 +156,10 @@ struct ContentView: View {
             }
                 
                 .fontDesign(.rounded)
+                .onAppear(perform: loadData)
+                .onChange(of: tasks) {
+                    saveTasks()
+                }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(destination: CustomizationView(userName: $userName)
@@ -186,7 +184,7 @@ struct ContentView: View {
                         } label: {
                             Image(systemName: "trash")
                                 .font(.system(size: 15))
-                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentOne : Color.secondary)
+                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentMint : Color.secondary)
                                 .fontWeight(.medium)
                                 .sensoryFeedback(
                                            .impact(weight: .heavy, intensity: 0.9),
@@ -236,11 +234,12 @@ struct ContentView: View {
         }
     }
     
-    func deleteTask(at offsets: IndexSet) {
-        tasks.remove(atOffsets: offsets)
-        saveTasks()
+    func deleteTask(_ task: Task) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks.remove(at: index)
+            saveTasks()
+        }
     }
-    
     private func loadTasks() {
         if let savedTasks = UserDefaults.standard.data(forKey: "tasks") {
             if let decodedTasks = try? JSONDecoder().decode([Task].self, from: savedTasks) {
