@@ -22,7 +22,7 @@ struct ContentView: View {
     private var completedTaskCount: Int {
         tasks.filter { $0.isCompleted }.count
     }
-
+    
     
     var body: some View {
         NavigationStack {
@@ -32,46 +32,45 @@ struct ContentView: View {
                     
                     VStack(spacing: 0) {
                         VStack(alignment: .leading) {
-                      
-                        Text(userName.isEmpty ? "Hello!" : "Hello, \(userName)!")
-                            .font(.system(size: 33))
-                            .fontWeight(.bold)
-                            .foregroundStyle(.primary)
-
                             
-                            .tint(Color.primary)
+                            Text(userName.isEmpty ? "Hello!" : "Hello, \(userName)!")
+                                .font(.custom("KohinoorTelugu-Medium", size: 33))
+                                .foregroundStyle(.primary)
+                            
+                            
+                                .tint(Color.primary)
                             Text(todayDateString)
-                                .font(.subheadline)
+                                .font(.custom("KohinoorTelugu-Medium", size: 18))
                                 .foregroundColor(.gray)
                             
                             VStack(alignment: .trailing) {
                                 Text("\(Int(taskProgress * 100))%")
-                                    .font(.subheadline)
+                                    .font(.custom("KohinoorTelugu-Medium", size: 15))
                                     .foregroundColor(
-                                    taskProgress == 0 ? .secondary :
-                                    (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne))
+                                        taskProgress == 0 ? .secondary :
+                                            (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo))
                                     .fontWeight(.medium)
                                 
                                 ProgressView(value: taskProgress)
-                                    .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne)
-                                    .scaleEffect(x: 1, y: 1.7, anchor: .center)
-                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentOne.opacity(0.9)), radius: 5, x: 0, y: 0)
-
-                                
+                                    .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo)
+                                    .scaleEffect(x: 1, y: 1.9, anchor: .center)
+                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo.opacity(0.9)), radius: 10, x: 0, y: 0)
                             }
                             .progressViewStyle(.linear)
+                            .padding(.top, -20)
                         }
                         .padding(.horizontal)
                         .padding(.top)
                         .zIndex(1)
-
+                        
                         // Tasks list
                         ZStack {
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack {
                                     Text(tasks.count == 0 ? "No Tasks" : "\(completedTaskCount)/\(tasks.count) Tasks Completed")
                                         .foregroundColor(.secondary)
-
+                                        .font(.custom("KohinoorTelugu-Light", size: 15))
+                                    
                                     Spacer()
                                     
                                     Button {
@@ -80,14 +79,15 @@ struct ContentView: View {
                                     } label: {
                                         Text("Sort By Date")
                                             .frame(width: 100, height: 28)
+                                            .font(.custom("KohinoorTelugu-Medium", size: 13))
                                             .background(Color.gray.opacity(0.2), in: Capsule())
                                             .foregroundStyle(Color.primary.opacity(0.5))
                                             .sensoryFeedback(
-                                                       .impact(weight: .heavy, intensity: 0.9),
-                                                       trigger: trigger
-                                                   )
+                                                .impact(weight: .heavy, intensity: 0.9),
+                                                trigger: trigger
+                                            )
                                     }
-
+                                    
                                 }
                                 .fontWeight(.medium)
                                 .font(.system(size: 13))
@@ -138,24 +138,24 @@ struct ContentView: View {
                                         .navigationBarBackButtonHidden(true)
                                         .onAppear { trigger.toggle() }
                                 } label: {
-                                        Image(systemName: "plus")
-                                            .font(.largeTitle)
-                                            .foregroundStyle(.white)
-                                            .frame(width: 75, height: 75)
-                                            .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
-                                            .clipShape(Circle())
-                                            .multicolorGlow()
-                                            .sensoryFeedback(
-                                                       .impact(weight: .heavy, intensity: 0.9),
-                                                       trigger: trigger
-                                                   )
+                                    Image(systemName: "plus")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.white)
+                                        .frame(width: 80, height: 80)
+                                        .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
+                                        .clipShape(Circle())
+                                        .multicolorGlow()
+                                        .sensoryFeedback(
+                                            .impact(weight: .heavy, intensity: 0.9),
+                                            trigger: trigger
+                                        )
                                 }
+                            }
                         }
                     }
                 }
-            }
                 
-                .fontDesign(.rounded)
+//                .fontDesign(.rounded)
                 .onAppear(perform: loadData)
                 .onChange(of: tasks) {
                     saveTasks()
@@ -167,16 +167,16 @@ struct ContentView: View {
                             .onAppear { trigger.toggle() }
                         ) {
                             Image(systemName: "slider.vertical.3")
-                            .font(.system(size: 15))
-                            .foregroundStyle(.gray)
-                            .fontWeight(.medium)
-                            .sensoryFeedback(
-                                       .impact(weight: .heavy, intensity: 0.9),
-                                       trigger: trigger
-                                   )
+                                .font(.system(size: 15))
+                                .foregroundStyle(.gray)
+                                .fontWeight(.medium)
+                                .sensoryFeedback(
+                                    .impact(weight: .heavy, intensity: 0.9),
+                                    trigger: trigger
+                                )
                         }
                     }
-
+                    
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             showClearConfirmation = true
@@ -184,19 +184,19 @@ struct ContentView: View {
                         } label: {
                             Image(systemName: "trash")
                                 .font(.system(size: 15))
-                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentMint : Color.secondary)
+                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentTwo : Color.secondary)
                                 .fontWeight(.medium)
                                 .sensoryFeedback(
-                                           .impact(weight: .heavy, intensity: 0.9),
-                                           trigger: trigger
-                                       )
+                                    .impact(weight: .heavy, intensity: 0.9),
+                                    trigger: trigger
+                                )
                         }
-
+                        
                     }
                 }
+            }
         }
-    }
-    
+        
         .preferredColorScheme(isDarkMode ? .dark : .light)
         .onAppear(perform: loadData)
         .sheet(isPresented: $showClearConfirmation) {
@@ -208,13 +208,8 @@ struct ContentView: View {
             })
             .presentationDetents([.height(300)])
             .presentationCornerRadius(50)
-            .presentationBackground(LinearGradient(colors: [Color.appMainBackgroundTwo, Color.appMainBackground], startPoint: .top, endPoint: .bottom).opacity(0.95))
+            .presentationBackground(Color.appMainBackground.opacity(0.95))
         }
-//        .onAppear {
-//            if isFirstLaunch {
-//                tempUserName = "nil"
-//            }
-//        }
     }
     
     private func sortTasksByDueDate() {
@@ -255,9 +250,9 @@ struct ContentView: View {
     }
     
     private func clearAllTasks() {
-         tasks.removeAll()
-         saveTasks()
-     }
+        tasks.removeAll()
+        saveTasks()
+    }
     
     private func loadCategories() {
         if let savedCategories = UserDefaults.standard.stringArray(forKey: "categories") {
@@ -284,6 +279,7 @@ struct ContentView: View {
         return Double(completedTasks) / Double(tasks.count)
     }
 }
+
 
 extension View {
     func multicolorGlow() -> some View {

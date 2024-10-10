@@ -38,6 +38,7 @@ struct TaskView: View {
     @State private var selectedCategory: String?
     @State private var newCategory: String = ""
     @State private var isAddingNewCategory = false
+    @State private var trigger = false
     @FocusState private var isFocused: Bool
     @Environment(\.presentationMode) var presentationMode
     @State private var debouncedTask = ""
@@ -187,6 +188,7 @@ struct TaskView: View {
                             Button(action: {
                                 if !debouncedTask.isEmpty {
                                     addTask()
+                                    trigger.toggle()
                                 }
                             }) {
                                 Text("Add Task")
@@ -200,6 +202,10 @@ struct TaskView: View {
                                                        endPoint: .bottomTrailing))
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
                             }
+                            .sensoryFeedback(
+                                       .impact(weight: .heavy, intensity: 0.9),
+                                       trigger: trigger
+                                   )
                             
                             Spacer(minLength: 50)
                         }

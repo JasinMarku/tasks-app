@@ -20,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9524C38B2CB7842000EB6E59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		957281A32CA712E400ED8811 /* TaskDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetails.swift; sourceTree = "<group>"; };
 		958FEFA12C9B57EC00B35F32 /* To-Do.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "To-Do.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		958FEFA42C9B57ED00B35F32 /* To_DoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = To_DoApp.swift; sourceTree = "<group>"; };
@@ -63,6 +64,7 @@
 		958FEFA32C9B57EC00B35F32 /* To-Do */ = {
 			isa = PBXGroup;
 			children = (
+				9524C38B2CB7842000EB6E59 /* Info.plist */,
 				958FEFC62C9DF18C00B35F32 /* Subviews */,
 				958FEFC52C9DF17A00B35F32 /* Views */,
 				958FEFA42C9B57ED00B35F32 /* To_DoApp.swift */,
@@ -315,6 +317,7 @@
 				DEVELOPMENT_TEAM = KT4T7V7242;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "To-Do/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MinimaList;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -346,6 +349,7 @@
 				DEVELOPMENT_TEAM = KT4T7V7242;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "To-Do/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MinimaList;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
