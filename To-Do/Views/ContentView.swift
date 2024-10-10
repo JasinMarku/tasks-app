@@ -22,7 +22,7 @@ struct ContentView: View {
     private var completedTaskCount: Int {
         tasks.filter { $0.isCompleted }.count
     }
-
+    
     
     var body: some View {
         NavigationStack {
@@ -32,14 +32,14 @@ struct ContentView: View {
                     
                     VStack(spacing: 0) {
                         VStack(alignment: .leading) {
-                      
-                        Text(userName.isEmpty ? "Hello!" : "Hello, \(userName)!")
-                            .font(.system(size: 33))
-                            .fontWeight(.bold)
-                            .foregroundStyle(.primary)
-
                             
-                            .tint(Color.primary)
+                            Text(userName.isEmpty ? "Hello!" : "Hello, \(userName)!")
+                                .font(.system(size: 33))
+                                .fontWeight(.bold)
+                                .foregroundStyle(.primary)
+                            
+                            
+                                .tint(Color.primary)
                             Text(todayDateString)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
@@ -48,15 +48,15 @@ struct ContentView: View {
                                 Text("\(Int(taskProgress * 100))%")
                                     .font(.subheadline)
                                     .foregroundColor(
-                                    taskProgress == 0 ? .secondary :
-                                    (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentPurple))
+                                        taskProgress == 0 ? .secondary :
+                                            (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo))
                                     .fontWeight(.medium)
                                 
                                 ProgressView(value: taskProgress)
-                                    .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentPurple)
+                                    .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo)
                                     .scaleEffect(x: 1, y: 1.7, anchor: .center)
-                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentPurple.opacity(0.5)), radius: 5, x: 0, y: 0)
-
+                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo.opacity(0.9)), radius: 5, x: 0, y: 0)
+                                
                                 
                             }
                             .progressViewStyle(.linear)
@@ -64,14 +64,14 @@ struct ContentView: View {
                         .padding(.horizontal)
                         .padding(.top)
                         .zIndex(1)
-
+                        
                         // Tasks list
                         ZStack {
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack {
                                     Text(tasks.count == 0 ? "No Tasks" : "\(completedTaskCount)/\(tasks.count) Tasks Completed")
                                         .foregroundColor(.secondary)
-
+                                    
                                     Spacer()
                                     
                                     Button {
@@ -83,11 +83,11 @@ struct ContentView: View {
                                             .background(Color.gray.opacity(0.2), in: Capsule())
                                             .foregroundStyle(Color.primary.opacity(0.5))
                                             .sensoryFeedback(
-                                                       .impact(weight: .heavy, intensity: 0.9),
-                                                       trigger: trigger
-                                                   )
+                                                .impact(weight: .heavy, intensity: 0.9),
+                                                trigger: trigger
+                                            )
                                     }
-
+                                    
                                 }
                                 .fontWeight(.medium)
                                 .font(.system(size: 13))
@@ -97,32 +97,36 @@ struct ContentView: View {
                                 
                                 if tasks.isEmpty {
                                     // Empty state view
-                                    VStack(spacing: 10) {
-                                        Spacer()
-                                        Image(systemName: "checkmark.circle")
-                                            .font(.system(size: 60))
-                                            .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
-                                        Text("Nothing To-Do!")
-                                            .font(.system(size: 26))
-                                            .foregroundColor(.gray)
-                                            .fontDesign(.rounded)
-                                        Spacer()
-                                        Spacer()
+                                    ScrollView {
+                                        VStack(spacing: 10) {
+                                            Spacer(minLength: 100)
+                                            Image("leaf")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 160)
+                                                .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
+                                            Text("Your task list is empty")
+                                                .font(.system(size: 26))
+                                                .foregroundColor(Color.primary.opacity(0.5))
+                                                .fontDesign(.rounded)
+                                                .fontWeight(.bold)
+                                            
+                                            Text("Start adding tasks below!")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(Color.primary.opacity(0.6))
+                                                .fontDesign(.rounded)
+                                                .fontWeight(.medium)
+                                                .opacity(0.5)
+                                        }
+                                        .opacity(0.9)
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        
                                     }
-                                    .opacity(0.5)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .padding(.bottom, 60)
-                                    .padding(.trailing, 12)
                                 } else {
                                     ScrollView {
                                         LazyVStack(spacing: 20) {
-                                            ForEach(tasks) { task in
-                                                TaskRow(task: task, toggleCompletion: toggleTaskCompletion, deleteTask: { taskToDelete in
-                                                    if let index = tasks.firstIndex(where: { $0.id == taskToDelete.id}) {
-                                                        tasks.remove(at: index)
-                                                        saveTasks()
-                                                    }
-                                                })
+                                            ForEach($tasks) { $task in
+                                                TaskRow(task: $task, toggleCompletion: toggleTaskCompletion, deleteTask: deleteTask)
                                             }
                                             .padding(.bottom, -2)
                                         }
@@ -143,24 +147,28 @@ struct ContentView: View {
                                         .navigationBarBackButtonHidden(true)
                                         .onAppear { trigger.toggle() }
                                 } label: {
-                                        Image(systemName: "plus")
-                                            .font(.largeTitle)
-                                            .foregroundStyle(.white)
-                                            .frame(width: 75, height: 75)
-                                            .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
-                                            .clipShape(Circle())
-                                            .multicolorGlow()
-                                            .sensoryFeedback(
-                                                       .impact(weight: .heavy, intensity: 0.9),
-                                                       trigger: trigger
-                                                   )
+                                    Image(systemName: "plus")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.white)
+                                        .frame(width: 80, height: 80)
+                                        .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
+                                        .clipShape(Circle())
+                                        .multicolorGlow()
+                                        .sensoryFeedback(
+                                            .impact(weight: .heavy, intensity: 0.9),
+                                            trigger: trigger
+                                        )
                                 }
+                            }
                         }
                     }
                 }
-            }
                 
                 .fontDesign(.rounded)
+                .onAppear(perform: loadData)
+                .onChange(of: tasks) {
+                    saveTasks()
+                }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(destination: CustomizationView(userName: $userName)
@@ -168,16 +176,16 @@ struct ContentView: View {
                             .onAppear { trigger.toggle() }
                         ) {
                             Image(systemName: "slider.vertical.3")
-                            .font(.system(size: 15))
-                            .foregroundStyle(.gray)
-                            .fontWeight(.medium)
-                            .sensoryFeedback(
-                                       .impact(weight: .heavy, intensity: 0.9),
-                                       trigger: trigger
-                                   )
+                                .font(.system(size: 15))
+                                .foregroundStyle(.gray)
+                                .fontWeight(.medium)
+                                .sensoryFeedback(
+                                    .impact(weight: .heavy, intensity: 0.9),
+                                    trigger: trigger
+                                )
                         }
                     }
-
+                    
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             showClearConfirmation = true
@@ -185,19 +193,19 @@ struct ContentView: View {
                         } label: {
                             Image(systemName: "trash")
                                 .font(.system(size: 15))
-                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentMint : Color.secondary)
+                                .foregroundStyle(taskProgress >= 1.0 ? Color.appAccentTwo : Color.secondary)
                                 .fontWeight(.medium)
                                 .sensoryFeedback(
-                                           .impact(weight: .heavy, intensity: 0.9),
-                                           trigger: trigger
-                                       )
+                                    .impact(weight: .heavy, intensity: 0.9),
+                                    trigger: trigger
+                                )
                         }
-
+                        
                     }
                 }
+            }
         }
-    }
-    
+        
         .preferredColorScheme(isDarkMode ? .dark : .light)
         .onAppear(perform: loadData)
         .sheet(isPresented: $showClearConfirmation) {
@@ -209,13 +217,13 @@ struct ContentView: View {
             })
             .presentationDetents([.height(300)])
             .presentationCornerRadius(50)
-            .presentationBackground(LinearGradient(colors: [Color.appMainBackgroundTwo, Color.appMainBackground], startPoint: .top, endPoint: .bottom).opacity(0.95))
+            .presentationBackground(Color.appMainBackground.opacity(0.95))
         }
-//        .onAppear {
-//            if isFirstLaunch {
-//                tempUserName = "nil"
-//            }
-//        }
+        //        .onAppear {
+        //            if isFirstLaunch {
+        //                tempUserName = "nil"
+        //            }
+        //        }
     }
     
     private func sortTasksByDueDate() {
@@ -235,11 +243,12 @@ struct ContentView: View {
         }
     }
     
-    func deleteTask(at offsets: IndexSet) {
-        tasks.remove(atOffsets: offsets)
-        saveTasks()
+    func deleteTask(_ task: Task) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks.remove(at: index)
+            saveTasks()
+        }
     }
-    
     private func loadTasks() {
         if let savedTasks = UserDefaults.standard.data(forKey: "tasks") {
             if let decodedTasks = try? JSONDecoder().decode([Task].self, from: savedTasks) {
@@ -255,9 +264,9 @@ struct ContentView: View {
     }
     
     private func clearAllTasks() {
-         tasks.removeAll()
-         saveTasks()
-     }
+        tasks.removeAll()
+        saveTasks()
+    }
     
     private func loadCategories() {
         if let savedCategories = UserDefaults.standard.stringArray(forKey: "categories") {
@@ -283,7 +292,19 @@ struct ContentView: View {
         let completedTasks = tasks.filter { $0.isCompleted }.count
         return Double(completedTasks) / Double(tasks.count)
     }
+
+//    init() {
+//        for familyName in UIFont.familyNames {
+//            print(familyName)
+//            
+//            for fontName in UIFont.fontNames(forFamilyName: familyName) {
+//                print("--- \(fontName)")
+//            }
+//        }
+//    }
+    
 }
+
 
 extension View {
     func multicolorGlow() -> some View {

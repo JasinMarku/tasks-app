@@ -12,6 +12,8 @@ import SwiftUI
 struct ClearTasksPopup: View {
     var onClear: () -> Void
     var onCancel: () -> Void
+    @State private var trigger = false
+
     
     var body: some View {
         VStack(spacing: 20) {
@@ -19,11 +21,11 @@ struct ClearTasksPopup: View {
 //                Text("Clear Tasks")
 //                    .font(.title2)
 //                    .fontWeight(.bold)
-//                
-                Image("trash")
+//
+                Image("broom")
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .trailing))
+                    .foregroundStyle(Color.appAccentOne)
                     .scaledToFit()
                     .frame(width: 40)
                     .padding(.top, 2)
@@ -34,23 +36,49 @@ struct ClearTasksPopup: View {
                 .multilineTextAlignment(.center)
             
             HStack(spacing: 20) {
-                Button(action: onCancel) {
-                    Text("No")
+                Button(action: {
+                    onCancel()
+                    trigger.toggle()
+                }, label: {
+                    Text("Cancel")
                         .foregroundColor(.primary)
                         .frame(width: 100)
                         .padding()
                         .background(.thinMaterial)
                         .clipShape(Capsule())
-                }
+                        .sensoryFeedback(
+                                   .impact(weight: .heavy, intensity: 0.9),
+                                   trigger: trigger
+                               )
+                })
                 
-                Button(action: onClear) {
+                Button(action: {
+                    onClear()
+                    trigger.toggle()
+                }, label: {
                     Text("Clear")
                         .foregroundColor(.white)
                         .frame(width: 100)
                         .padding()
                         .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .trailing))
                         .clipShape(Capsule())
-                }
+                        .sensoryFeedback(
+                                   .impact(weight: .heavy, intensity: 0.9),
+                                   trigger: trigger
+                               )
+                })
+//                Button(action: onClear, trigger.toggle()) {
+//                    Text("Clear")
+//                        .foregroundColor(.white)
+//                        .frame(width: 100)
+//                        .padding()
+//                        .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .trailing))
+//                        .clipShape(Capsule())
+//                        .sensoryFeedback(
+//                                   .impact(weight: .heavy, intensity: 0.9),
+//                                   trigger: trigger
+//                               )
+//                }
             }
             .fontWeight(.medium)
             .shadow(radius: 15)

@@ -7,8 +7,20 @@
 
 import SwiftUI
 
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
+    }
+}
+
+
 struct TaskRow: View {
-    let task: Task
+    @Binding var task: Task
     let toggleCompletion: (Task) -> Void
     let deleteTask: (Task) -> Void
     @State private var isFlipping = false
@@ -23,11 +35,10 @@ struct TaskRow: View {
     var body: some View {
         HStack(spacing: -10) {
 
-            NavigationLink {
-                  TaskDetails(task: task, deleteTask: deleteTask)
-                  .navigationBarBackButtonHidden(true)
-                  .onAppear { trigger.toggle() }
-              } label: {
+            NavigationLink(destination:TaskDetails(task: $task, deleteTask: deleteTask)
+                    .navigationBarBackButtonHidden(true)
+                    .onAppear { trigger.toggle() }
+            ) {
                 HStack {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(task.title)
@@ -76,76 +87,58 @@ struct TaskRow: View {
                 }
                 .padding(.leading, 8)
                 .tint(.primary)
-                
-                Button(action: {
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        isFlipping.toggle()
-                        toggleCompletion(task)
-                    }
-                    trigger.toggle()
-                }) {
-                    ZStack {
-                        let check = Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
-                        
-                        check
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 22, height: 22)
-                            .foregroundStyle(task.isCompleted ? Color.appAccentMint : Color.appAccentOne)
-                    }
-                    .rotation3DEffect(
-                        .degrees(isFlipping ? 360 : 0),
-                         axis: (x: 0.0, y: 1.0, z: 0.0)
-                    )
-                    .frame(width: 30, height: 30)  // Increase the touch target
-                    .contentShape(Rectangle())  // Make the entire area tappable
-                    .sensoryFeedback(
-                        .impact(weight: .heavy, intensity: 0.9),
-                        trigger: trigger
-                    )
-                    .padding(.trailing, 4)
-                }
-                .padding(.leading, -10)
             }
-              .sensoryFeedback(
-                         .impact(weight: .heavy, intensity: 0.9),
-                         trigger: trigger
-                     )
+                
+            Button(action: {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    isFlipping.toggle()
+                    toggleCompletion(task)
+                }
+                trigger.toggle()
+            }, label: {
+                ZStack {
+                    let check = Image(task.isCompleted ? "check-circle" : "circle")
+                    
+                    check
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                        .foregroundStyle(task.isCompleted ? Color.appAccentMint : Color.appAccentOne)
+                }
+                .rotation3DEffect(
+                    .degrees(isFlipping ? 360 : 0),
+                    axis: (x: 0.0, y: 1.0, z: 0.0)
+                )
+                .frame(width: 30, height: 30)
+                .contentShape(Rectangle())
+                .sensoryFeedback(.impact(weight: .heavy, intensity: 0.9), trigger: trigger)
+                .padding(.trailing, 4)
+            })
         }
+        .sensoryFeedback(
+                 .impact(weight: .heavy, intensity: 0.9),
+                 trigger: trigger
+             )
         .padding()
         .background(task.isCompleted ? Color.appAccentMint.opacity(0.15) : Color.appAccentTwo.opacity(0.15), in: RoundedRectangle(cornerRadius: 20))
+        }
+//        .padding()
+//        .background(task.isCompleted ? Color.appAccentMint.opacity(0.15) : Color.appAccentTwo.opacity(0.15), in: RoundedRectangle(cornerRadius: 20))
     }
-}
+
 
 #Preview {
-    VStack {
-        TaskRow(
-            task: Task(
-                id: UUID(),
-                title: "Sample Task",
-                dueDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()),
-                dueTime: Calendar.current.date(byAdding: .hour, value: 1, to: Date()),
-                isCompleted: false,
-                category: "Cateogry",
-                description: "Description goes here"
-            ),
-            toggleCompletion: { _ in  },
-            deleteTask: { _ in }
-        )
-        
-        TaskRow(
-            task: Task(
-                id: UUID(),
-                title: "Sample Task #2",
-                dueDate: Calendar.current.date(byAdding: .day, value: 3, to: Date()),
-                dueTime: Calendar.current.date(byAdding: .hour, value: 5, to: Date()),
-                isCompleted: true,
-                category: "Cateogry",
-                description: "Description goes here"
-            ),
-            toggleCompletion: { _ in  },
-            deleteTask: { _ in }
-        )
-    }
-    
+    TaskRow(
+        task: .constant(Task(
+            id: UUID(),
+            title: "Sample Task",
+            isCompleted: false,
+            category: "Sample Category",
+            description: "Sample Description"
+        )),
+        toggleCompletion: { _ in },
+        deleteTask: { _ in }
+    )
 }
+
