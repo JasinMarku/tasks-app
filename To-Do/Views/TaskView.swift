@@ -126,7 +126,7 @@ struct TaskView: View {
                                     ManageCategoriesView(categories: $categories, selectedCategory: $selectedCategory, isPresented: $isManagingCategories)
                                         .presentationDetents([.height(550)])
                                         .presentationCornerRadius(30)
-                                        .presentationBackground(Color.appMainBackground.opacity(0.95))
+                                        .presentationBackground(Color.appMainBackground)
 
                             }
                             }

@@ -97,27 +97,31 @@ struct ContentView: View {
                                 
                                 if tasks.isEmpty {
                                     // Empty state view
-                                    VStack(spacing: 10) {
-                                        Image("leaf")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 160)
-                                            .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
-                                        Text("Your task list is empty")
-                                            .font(.system(size: 26))
-                                            .foregroundColor(Color.primary.opacity(0.6))
-                                            .fontDesign(.rounded)
-                                            .fontWeight(.bold)
+                                    ScrollView {
+                                        VStack(spacing: 10) {
+                                            Spacer(minLength: 100)
+                                            Image("leaf")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 160)
+                                                .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
+                                            Text("Your task list is empty")
+                                                .font(.system(size: 26))
+                                                .foregroundColor(Color.primary.opacity(0.5))
+                                                .fontDesign(.rounded)
+                                                .fontWeight(.bold)
+                                            
+                                            Text("Start adding tasks below!")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(Color.primary.opacity(0.6))
+                                                .fontDesign(.rounded)
+                                                .fontWeight(.medium)
+                                                .opacity(0.5)
+                                        }
+                                        .opacity(0.9)
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                                         
-                                        Text("Start adding tasks below!")
-                                            .font(.system(size: 16))
-                                            .foregroundColor(Color.primary.opacity(0.6))
-                                            .fontDesign(.rounded)
-                                            .fontWeight(.medium)
                                     }
-                                    .opacity(0.6)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    Spacer(minLength: 170)
                                 } else {
                                     ScrollView {
                                         LazyVStack(spacing: 20) {
