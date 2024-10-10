@@ -34,18 +34,19 @@ struct ContentView: View {
                         VStack(alignment: .leading) {
                             
                             Text(userName.isEmpty ? "Hello!" : "Hello, \(userName)!")
-                                .font(.custom("KohinoorTelugu-Medium", size: 33))
+                                .font(.system(size: 33))
+                                .fontWeight(.bold)
                                 .foregroundStyle(.primary)
                             
                             
                                 .tint(Color.primary)
                             Text(todayDateString)
-                                .font(.custom("KohinoorTelugu-Medium", size: 18))
+                                .font(.subheadline)
                                 .foregroundColor(.gray)
                             
                             VStack(alignment: .trailing) {
                                 Text("\(Int(taskProgress * 100))%")
-                                    .font(.custom("KohinoorTelugu-Medium", size: 15))
+                                    .font(.subheadline)
                                     .foregroundColor(
                                         taskProgress == 0 ? .secondary :
                                             (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo))
@@ -53,11 +54,12 @@ struct ContentView: View {
                                 
                                 ProgressView(value: taskProgress)
                                     .tint(taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo)
-                                    .scaleEffect(x: 1, y: 1.9, anchor: .center)
-                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo.opacity(0.9)), radius: 10, x: 0, y: 0)
+                                    .scaleEffect(x: 1, y: 1.7, anchor: .center)
+                                    .shadow(color: taskProgress == 0 ? Color.secondary.opacity(0.0) : (taskProgress >= 1.0 ? Color.appAccentMint : Color.appAccentTwo.opacity(0.9)), radius: 5, x: 0, y: 0)
+                                
+                                
                             }
                             .progressViewStyle(.linear)
-                            .padding(.top, -20)
                         }
                         .padding(.horizontal)
                         .padding(.top)
@@ -69,7 +71,6 @@ struct ContentView: View {
                                 HStack {
                                     Text(tasks.count == 0 ? "No Tasks" : "\(completedTaskCount)/\(tasks.count) Tasks Completed")
                                         .foregroundColor(.secondary)
-                                        .font(.custom("KohinoorTelugu-Light", size: 15))
                                     
                                     Spacer()
                                     
@@ -79,7 +80,6 @@ struct ContentView: View {
                                     } label: {
                                         Text("Sort By Date")
                                             .frame(width: 100, height: 28)
-                                            .font(.custom("KohinoorTelugu-Medium", size: 13))
                                             .background(Color.gray.opacity(0.2), in: Capsule())
                                             .foregroundStyle(Color.primary.opacity(0.5))
                                             .sensoryFeedback(
@@ -98,21 +98,26 @@ struct ContentView: View {
                                 if tasks.isEmpty {
                                     // Empty state view
                                     VStack(spacing: 10) {
-                                        Spacer()
-                                        Image(systemName: "checkmark.circle")
-                                            .font(.system(size: 60))
+                                        Image("leaf")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 160)
                                             .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
-                                        Text("Nothing To-Do!")
+                                        Text("Your task list is empty")
                                             .font(.system(size: 26))
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(Color.primary.opacity(0.6))
                                             .fontDesign(.rounded)
-                                        Spacer()
-                                        Spacer()
+                                            .fontWeight(.bold)
+                                        
+                                        Text("Start adding tasks below!")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(Color.primary.opacity(0.6))
+                                            .fontDesign(.rounded)
+                                            .fontWeight(.medium)
                                     }
-                                    .opacity(0.5)
+                                    .opacity(0.6)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .padding(.bottom, 60)
-                                    .padding(.trailing, 12)
+                                    Spacer(minLength: 170)
                                 } else {
                                     ScrollView {
                                         LazyVStack(spacing: 20) {
@@ -155,7 +160,7 @@ struct ContentView: View {
                     }
                 }
                 
-//                .fontDesign(.rounded)
+                .fontDesign(.rounded)
                 .onAppear(perform: loadData)
                 .onChange(of: tasks) {
                     saveTasks()
@@ -210,6 +215,11 @@ struct ContentView: View {
             .presentationCornerRadius(50)
             .presentationBackground(Color.appMainBackground.opacity(0.95))
         }
+        //        .onAppear {
+        //            if isFirstLaunch {
+        //                tempUserName = "nil"
+        //            }
+        //        }
     }
     
     private func sortTasksByDueDate() {
@@ -278,6 +288,17 @@ struct ContentView: View {
         let completedTasks = tasks.filter { $0.isCompleted }.count
         return Double(completedTasks) / Double(tasks.count)
     }
+
+//    init() {
+//        for familyName in UIFont.familyNames {
+//            print(familyName)
+//            
+//            for fontName in UIFont.fontNames(forFamilyName: familyName) {
+//                print("--- \(fontName)")
+//            }
+//        }
+//    }
+    
 }
 
 

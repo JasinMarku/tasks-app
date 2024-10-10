@@ -104,12 +104,17 @@ struct TaskView: View {
                                 
                                 Button(action: {
                                     isManagingCategories = true
+                                    trigger.toggle()
                                 }) {
                                     HStack {
                                         Text(selectedCategory ?? "Select Category")
                                         Spacer()
                                         Image(systemName: "chevron.down")
                                     }
+                                    .sensoryFeedback(
+                                               .impact(weight: .heavy, intensity: 0.9),
+                                               trigger: trigger
+                                           )
                                     .frame(maxWidth: .infinity)
                                     .padding()
                                     .background(.gray.opacity(0.13))
@@ -121,6 +126,8 @@ struct TaskView: View {
                                     ManageCategoriesView(categories: $categories, selectedCategory: $selectedCategory, isPresented: $isManagingCategories)
                                         .presentationDetents([.height(550)])
                                         .presentationCornerRadius(30)
+                                        .presentationBackground(Color.appMainBackground.opacity(0.95))
+
                             }
                             }
                             
@@ -129,18 +136,22 @@ struct TaskView: View {
                                 Text("Due Date")
                                     .foregroundStyle(.primary.opacity(0.7))
                                     .fontWeight(.medium)
-                                
                                 Button(action: {
                                     withAnimation {
                                         isDatePickerVisible.toggle()
                                     }
                                     isFocused = false
+                                    trigger.toggle()
                                 }) {
                                     HStack {
                                         Image(systemName: "calendar")
                                         Divider()
                                         DateFormattedView(dueDate: dueDate, dueTime: includeTime ? dueTime : nil)
                                     }
+                                    .sensoryFeedback(
+                                               .impact(weight: .heavy, intensity: 0.9),
+                                               trigger: trigger
+                                           )
                                     .frame(maxWidth: .infinity)
                                     .padding()
                                     .background(.gray.opacity(0.13), in: RoundedRectangle(cornerRadius: 15))

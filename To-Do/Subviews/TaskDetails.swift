@@ -39,9 +39,8 @@ struct TaskDetails: View {
                                     .font(.title2)
                                     .fontWeight(.medium)
                                     .padding(.horizontal)
-                                    .foregroundStyle(Color.appAccentOne)
+                                    .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
                                     .padding(8)
-                                    .background(.thinMaterial, in: Circle())
                                     .sensoryFeedback(
                                         .impact(weight: .heavy, intensity: 0.9),
                                         trigger: trigger
@@ -66,9 +65,8 @@ struct TaskDetails: View {
                                 Image("trash")
                                     .renderingMode(.template)
                                     .padding(.horizontal)
-                                    .foregroundStyle(Color.appAccentOne)
+                                    .foregroundStyle(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
                                     .padding(7)
-                                    .background(.thinMaterial, in: Circle())
                                     .sensoryFeedback(
                                         .impact(weight: .heavy, intensity: 0.9),
                                         trigger: trigger
@@ -159,8 +157,13 @@ struct TaskDetails: View {
                                 // Description Section
                                 VStack(alignment: .leading, spacing: 10) {
                                     HStack(spacing: 5) {
-                                        Text("Description")
-                                            .fontWeight(.medium)
+                                        if task.description.isEmpty {
+                                            Text("Add Notes")
+                                                .fontWeight(.medium)
+                                        } else {
+                                            Text("Task Notes")
+                                                .fontWeight(.medium)
+                                        }
                                         
                                         
                                         Image("pencil")
