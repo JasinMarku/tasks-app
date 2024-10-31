@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+
+
 struct Task: Identifiable, Codable, Equatable {
     let id: UUID
     var title: String
@@ -35,6 +37,7 @@ struct TaskView: View {
     @State private var dueDate: Date = Date()
     @State private var dueTime: Date = Date()
     @State private var isDatePickerVisible = false
+    @State private var isTaskDescriptionVisable = false
     @State private var selectedCategory: String?
     @State private var newCategory: String = ""
     @State private var isAddingNewCategory = false
@@ -161,6 +164,7 @@ struct TaskView: View {
                             }
                             
                             
+                            
                             if isDatePickerVisible {
                                 VStack(alignment: .leading) {
                                     DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
@@ -182,18 +186,34 @@ struct TaskView: View {
                                 .tint(.appAccentOne)
                             }
                             
-                            VStack(alignment: .leading, spacing: 7) {
-                                Text("Notes")
+                            
+                            VStack(alignment: .leading, spacing: 9) {
+                                Button(action: {
+                                    withAnimation {
+                                        isTaskDescriptionVisable.toggle()
+                                    }
+                                }, label: {
+                                    HStack(alignment: .center) {
+                                        Text("Add Description")
+                                            .foregroundStyle(isTaskDescriptionVisable ? Color.appAccentOne : .primary.opacity(0.7))
+                                                .fontWeight(.medium)
+                                    }
                                     .foregroundStyle(.primary.opacity(0.7))
                                     .fontWeight(.medium)
+                                })
+                                .tint(.primary)
+
                                 
-                                TextField("Enter Details", text: $taskDescription, axis: .vertical)
-                                    .lineLimit(5...10)
-                                    .textFieldStyle(PlainTextFieldStyle())
-                                    .padding()
-                                    .background(.gray.opacity(0.13), in: RoundedRectangle(cornerRadius: 15))
-                                    .focused($isFocused)
-                                    .keyboardType(.default)
+                                
+                                if isTaskDescriptionVisable {
+                                    TextField("Enter Description", text: $taskDescription, axis: .vertical)
+                                        .lineLimit(5...10)
+                                        .textFieldStyle(PlainTextFieldStyle())
+                                        .padding()
+                                        .background(.gray.opacity(0.13), in: RoundedRectangle(cornerRadius: 15))
+                                        .focused($isFocused)
+                                        .keyboardType(.default)
+                                }
                             }
                             
                             Button(action: {
