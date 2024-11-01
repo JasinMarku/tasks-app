@@ -30,6 +30,7 @@ struct ManageCategoriesView: View {
                 if !newCategory.isEmpty && !categories.contains(newCategory) {
                     categories.insert(newCategory, at: 0)
                     newCategory = ""
+                    saveCategories()
                 }
             }, label: {
                 Text("Add Category")
@@ -89,7 +90,6 @@ struct ManageCategoriesView: View {
            !categories.contains(selectedCategory) {
             self.selectedCategory = nil
         }
-        print("Deleted -- \(String(describing: selectedCategory))")
         saveCategories() // Call a function to save the updated categories
     }
 

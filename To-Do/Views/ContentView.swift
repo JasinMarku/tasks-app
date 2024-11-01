@@ -37,11 +37,8 @@ struct ContentView: View {
                                 .font(.system(size: 33))
                                 .fontWeight(.bold)
                                 .foregroundStyle(.primary)
-                            
-                            
-                                .tint(Color.primary)
                             Text(todayDateString)
-                                .font(.subheadline)
+                                .font(.system(size: 19))
                                 .foregroundColor(.gray)
                             
                             VStack(alignment: .trailing) {
@@ -99,7 +96,7 @@ struct ContentView: View {
                                     // Empty state view
                                     ScrollView {
                                         VStack(spacing: 10) {
-                                            Spacer(minLength: 100)
+                                            Spacer(minLength: 60)
                                             Image("leaf")
                                                 .resizable()
                                                 .scaledToFit()
@@ -151,7 +148,7 @@ struct ContentView: View {
                                         .font(.largeTitle)
                                         .foregroundStyle(.white)
                                         .frame(width: 80, height: 80)
-                                        .background(LinearGradient(colors: [.appAccentOne, .appAccentTwo], startPoint: .leading, endPoint: .bottomTrailing))
+                                        .background(Color.appAccentTwo)
                                         .clipShape(Circle())
                                         .multicolorGlow()
                                         .sensoryFeedback(

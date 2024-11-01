@@ -85,7 +85,7 @@ public struct CustomizationView: View {
                         trigger.toggle()
                     }, label: {
                         HStack {
-                            Text(isDarkMode ? "Light Mode" : "Dark Mode")
+                            Text(isDarkMode ? "Dark Mode" : "Light Mode")
                                 .foregroundStyle(.primary)
                             
                             Spacer()
