@@ -55,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				956A05522CD5864A00B32CDE /* TaskViewModel.swift */,
-				956A05542CD58C7900B32CDE /* DateFormattedView.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -88,11 +87,12 @@
 			isa = PBXGroup;
 			children = (
 				956A054D2CD582E100B32CDE /* Models */,
-				958FEFC52C9DF17A00B35F32 /* Views */,
+				95C062B82CDAAE45004C3E14 /* Components */,
 				956A054C2CD582DD00B32CDE /* ViewModels */,
-				9524C38B2CB7842000EB6E59 /* Info.plist */,
-				958FEFC62C9DF18C00B35F32 /* Subviews */,
+				958FEFC52C9DF17A00B35F32 /* Views */,
+				95C062B92CDAAEA8004C3E14 /* Utilities */,
 				958FEFA42C9B57ED00B35F32 /* To_DoApp.swift */,
+				9524C38B2CB7842000EB6E59 /* Info.plist */,
 				958FEFA82C9B57ED00B35F32 /* Assets.xcassets */,
 				958FEFAA2C9B57ED00B35F32 /* Preview Content */,
 			);
@@ -118,14 +118,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		958FEFC62C9DF18C00B35F32 /* Subviews */ = {
+		95C062B82CDAAE45004C3E14 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				958FEFBA2C9BF43300B35F32 /* ClearTasksPopup.swift */,
 				958FEFC22C9DF08F00B35F32 /* TaskRow.swift */,
 				957281A32CA712E400ED8811 /* TaskDetails.swift */,
-				958FEFBA2C9BF43300B35F32 /* ClearTasksPopup.swift */,
 			);
-			path = Subviews;
+			path = Components;
+			sourceTree = "<group>";
+		};
+		95C062B92CDAAEA8004C3E14 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				956A05542CD58C7900B32CDE /* DateFormattedView.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
