@@ -8,28 +8,6 @@
 import SwiftUI
 import Combine
 
-
-
-struct Task: Identifiable, Codable, Equatable {
-    let id: UUID
-    var title: String
-    var dueDate: Date?
-    var dueTime: Date?
-    var isCompleted: Bool
-    var category: String?
-    var description: String
-
-    init(id: UUID = UUID(), title: String, dueDate: Date? = nil, dueTime: Date? = nil, isCompleted: Bool = false, category: String? = nil, description: String) {
-        self.id = id
-        self.title = title
-        self.dueDate = dueDate
-        self.dueTime = dueTime
-        self.isCompleted = isCompleted
-        self.category = category
-        self.description = description
-    }
-}
-
 struct TaskView: View {
     @Binding var tasks: [Task]
     @Binding var categories: [String]
@@ -289,30 +267,6 @@ struct TaskView: View {
            }
        }
 }
-
-
-struct DateFormattedView: View {
-    var dueDate: Date
-    var dueTime: Date?
-    
-    var body: some View {
-        Text(formattedDate(dueDate, dueTime: dueTime))
-    }
-    
-    func formattedDate(_ date: Date, dueTime: Date?) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d, yyyy"
-        var result = formatter.string(from: date)
-        
-        if let time = dueTime {
-            formatter.dateFormat = "h:mm a"
-            result += " at " + formatter.string(from: time)
-        }
-        
-        return result
-    }
-}
-
 
 #Preview {
     TaskView(tasks: .constant([]), categories: .constant([]))
