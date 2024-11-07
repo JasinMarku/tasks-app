@@ -8,26 +8,6 @@
 import SwiftUI
 import Combine
 
-struct Task: Identifiable, Codable {
-    let id: UUID
-    var title: String
-    var dueDate: Date?
-    var dueTime: Date?
-    var isCompleted: Bool
-    var category: String?
-    var description: String
-
-    init(id: UUID = UUID(), title: String, dueDate: Date? = nil, dueTime: Date? = nil, isCompleted: Bool = false, category: String? = nil, description: String) {
-        self.id = id
-        self.title = title
-        self.dueDate = dueDate
-        self.dueTime = dueTime
-        self.isCompleted = isCompleted
-        self.category = category
-        self.description = description
-    }
-}
-
 struct TaskView: View {
     @Binding var tasks: [Task]
     @Binding var categories: [String]
@@ -35,9 +15,11 @@ struct TaskView: View {
     @State private var dueDate: Date = Date()
     @State private var dueTime: Date = Date()
     @State private var isDatePickerVisible = false
+    @State private var isTaskDescriptionVisable = false
     @State private var selectedCategory: String?
     @State private var newCategory: String = ""
     @State private var isAddingNewCategory = false
+    @State private var trigger = false
     @FocusState private var isFocused: Bool
     @Environment(\.presentationMode) var presentationMode
     @State private var debouncedTask = ""
@@ -103,12 +85,17 @@ struct TaskView: View {
                                 
                                 Button(action: {
                                     isManagingCategories = true
+                                    trigger.toggle()
                                 }) {
                                     HStack {
                                         Text(selectedCategory ?? "Select Category")
                                         Spacer()
                                         Image(systemName: "chevron.down")
                                     }
+                                    .sensoryFeedback(
+                                               .impact(weight: .heavy, intensity: 0.9),
+                                               trigger: trigger
+                                           )
                                     .frame(maxWidth: .infinity)
                                     .padding()
                                     .background(.gray.opacity(0.13))
@@ -120,6 +107,8 @@ struct TaskView: View {
                                     ManageCategoriesView(categories: $categories, selectedCategory: $selectedCategory, isPresented: $isManagingCategories)
                                         .presentationDetents([.height(550)])
                                         .presentationCornerRadius(30)
+                                        .presentationBackground(Color.appMainBackground)
+
                             }
                             }
                             
@@ -128,18 +117,22 @@ struct TaskView: View {
                                 Text("Due Date")
                                     .foregroundStyle(.primary.opacity(0.7))
                                     .fontWeight(.medium)
-                                
                                 Button(action: {
                                     withAnimation {
                                         isDatePickerVisible.toggle()
                                     }
                                     isFocused = false
+                                    trigger.toggle()
                                 }) {
                                     HStack {
                                         Image(systemName: "calendar")
                                         Divider()
                                         DateFormattedView(dueDate: dueDate, dueTime: includeTime ? dueTime : nil)
                                     }
+                                    .sensoryFeedback(
+                                               .impact(weight: .heavy, intensity: 0.9),
+                                               trigger: trigger
+                                           )
                                     .frame(maxWidth: .infinity)
                                     .padding()
                                     .background(.gray.opacity(0.13), in: RoundedRectangle(cornerRadius: 15))
@@ -147,6 +140,7 @@ struct TaskView: View {
                                 }
                             .tint(.primary)
                             }
+                            
                             
                             
                             if isDatePickerVisible {
@@ -167,26 +161,43 @@ struct TaskView: View {
                                 .padding(.top, -20)
                                 .padding()
                                 .transition(.opacity.combined(with: .scale))
-                                .tint(.appAccentTwo)
+                                .tint(.appAccentOne)
                             }
                             
-                            VStack(alignment: .leading, spacing: 7) {
-                                Text("Notes")
+                            
+                            VStack(alignment: .leading, spacing: 9) {
+                                Button(action: {
+                                    withAnimation {
+                                        isTaskDescriptionVisable.toggle()
+                                    }
+                                }, label: {
+                                    HStack(alignment: .center) {
+                                        Text("Add Description")
+                                            .foregroundStyle(isTaskDescriptionVisable ? Color.appAccentOne : .primary.opacity(0.7))
+                                                .fontWeight(.medium)
+                                    }
                                     .foregroundStyle(.primary.opacity(0.7))
                                     .fontWeight(.medium)
+                                })
+                                .tint(.primary)
+
                                 
-                                TextField("Enter Details", text: $taskDescription, axis: .vertical)
-                                    .lineLimit(5...10)
-                                    .textFieldStyle(PlainTextFieldStyle())
-                                    .padding()
-                                    .background(.gray.opacity(0.13), in: RoundedRectangle(cornerRadius: 15))
-                                    .focused($isFocused)
-                                    .keyboardType(.default)
+                                
+                                if isTaskDescriptionVisable {
+                                    TextField("Enter Description", text: $taskDescription, axis: .vertical)
+                                        .lineLimit(5...10)
+                                        .textFieldStyle(PlainTextFieldStyle())
+                                        .padding()
+                                        .background(.gray.opacity(0.13), in: RoundedRectangle(cornerRadius: 15))
+                                        .focused($isFocused)
+                                        .keyboardType(.default)
+                                }
                             }
                             
                             Button(action: {
                                 if !debouncedTask.isEmpty {
                                     addTask()
+                                    trigger.toggle()
                                 }
                             }) {
                                 Text("Add Task")
@@ -200,6 +211,10 @@ struct TaskView: View {
                                                        endPoint: .bottomTrailing))
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
                             }
+                            .sensoryFeedback(
+                                       .impact(weight: .heavy, intensity: 0.9),
+                                       trigger: trigger
+                                   )
                             
                             Spacer(minLength: 50)
                         }
@@ -252,30 +267,6 @@ struct TaskView: View {
            }
        }
 }
-
-
-struct DateFormattedView: View {
-    var dueDate: Date
-    var dueTime: Date?
-    
-    var body: some View {
-        Text(formattedDate(dueDate, dueTime: dueTime))
-    }
-    
-    func formattedDate(_ date: Date, dueTime: Date?) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d, yyyy"
-        var result = formatter.string(from: date)
-        
-        if let time = dueTime {
-            formatter.dateFormat = "h:mm a"
-            result += " at " + formatter.string(from: time)
-        }
-        
-        return result
-    }
-}
-
 
 #Preview {
     TaskView(tasks: .constant([]), categories: .constant([]))

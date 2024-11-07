@@ -23,13 +23,14 @@ struct ManageCategoriesView: View {
                 .textFieldStyle(.plain)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color(UIColor.secondarySystemBackground))
+                .background(.gray.opacity(0.13))
                 .clipShape(RoundedRectangle(cornerRadius: 15))
             
             Button(action: {
                 if !newCategory.isEmpty && !categories.contains(newCategory) {
                     categories.insert(newCategory, at: 0)
                     newCategory = ""
+                    saveCategories()
                 }
             }, label: {
                 Text("Add Category")
@@ -60,7 +61,7 @@ struct ManageCategoriesView: View {
                                     .padding(.horizontal, 15)
                                     .padding(.vertical, 8)
                                     .foregroundStyle(.primary)
-                                    .background(Color.appAccentOne.opacity(0.5))
+                                    .background(Color.appAccentOne.opacity(0.2))
                                     .clipShape(Capsule())
                             }
                             .contextMenu {
@@ -84,11 +85,16 @@ struct ManageCategoriesView: View {
     }
 
     private func deleteCategory(at offsets: IndexSet) {
-        categories.remove(atOffsets: offsets)
+        categories.remove(atOffsets: offsets) // Update the binding directly
         if let selectedCategory = selectedCategory,
            !categories.contains(selectedCategory) {
             self.selectedCategory = nil
         }
+        saveCategories() // Call a function to save the updated categories
+    }
+
+    private func saveCategories() {
+        UserDefaults.standard.set(categories, forKey: "categories") // Save the updated categories
     }
 }
 

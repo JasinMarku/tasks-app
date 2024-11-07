@@ -26,7 +26,9 @@ public struct CustomizationView: View {
     @State private var inputName: String = ""
     @State private var isUserNameValid = false
     @State private var errorMessage = ""
+    @State private var trigger = false
     @AppStorage("isDarkMode") private var isDarkMode = false
+    
 
 
     
@@ -45,7 +47,7 @@ public struct CustomizationView: View {
                                 .font(.title2)
                                 .fontWeight(.medium)
                                 .padding(.horizontal)
-                                .foregroundStyle(Color.appAccentTwo)
+                                .foregroundStyle(Color.appAccentOne)
                         }
                         Spacer()
                         Text("Customization")
@@ -80,9 +82,10 @@ public struct CustomizationView: View {
                         
                     Button(action: {
                         isDarkMode.toggle()
+                        trigger.toggle()
                     }, label: {
                         HStack {
-                            Text(isDarkMode ? "Light Mode" : "Dark Mode")
+                            Text(isDarkMode ? "Dark Mode" : "Light Mode")
                                 .foregroundStyle(.primary)
                             
                             Spacer()
@@ -92,6 +95,10 @@ public struct CustomizationView: View {
                                 .foregroundStyle(Color.appAccentTwo)
                             
                         }
+                        .sensoryFeedback(
+                                   .impact(weight: .heavy, intensity: 0.9),
+                                   trigger: trigger
+                               )
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.appAccentOne.opacity(0.13), in: RoundedRectangle(cornerRadius: 15))
@@ -105,6 +112,7 @@ public struct CustomizationView: View {
                                     userName = inputName
                                     presentationMode.wrappedValue.dismiss()
                                 }
+                                trigger.toggle()
                             }, label: {
                                 Text("Confirm")
                                     .fontWeight(.semibold)
@@ -116,6 +124,10 @@ public struct CustomizationView: View {
                                                        startPoint: .leading,
                                                        endPoint: .bottomTrailing))
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
+                                    .sensoryFeedback(
+                                               .impact(weight: .heavy, intensity: 0.9),
+                                               trigger: trigger
+                                           )
                             })
                             .shadow(radius: 10)
                             .disabled(!isUserNameValid)

@@ -89,3 +89,6 @@ fastlane/test_output
 
 iOSInjectionProject/
 .DS_Store
+To-Do/Subviews/TaskDetails.swift
+To-Do/Subviews/TaskRow.swift
+To-Do/Views/ContentView.swift
